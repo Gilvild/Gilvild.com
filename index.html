@@ -6,19 +6,51 @@
 <title>Суперпозиционизм — философия опционального смысла</title>
 <meta name="description" content="Суперпозиционизм — философия опционального смысла. Автор: Gilvild.">
 <style>
+  :root { --accent: #c9b458; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: Georgia, 'Times New Roman', serif;
-    background: #111214;
+    background: radial-gradient(ellipse at 50% -20%, #17181c 0%, #111214 55%);
     color: #d8d5cf;
     line-height: 1.7;
     padding: 0 20px;
+    overflow-x: hidden;
   }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 60px 0 100px; }
+  ::selection { background: rgba(201,180,88,.25); color: #f0ede6; }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #111214; }
+  ::-webkit-scrollbar-thumb { background: #2a2b2e; border-radius: 5px; }
+  ::-webkit-scrollbar-thumb:hover { background: #3a3b3e; }
+  #particles {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 60px 0 100px; position: relative; z-index: 1; }
   header { text-align: center; margin-bottom: 70px; }
   h1 {
     font-size: 42px; letter-spacing: 6px; font-weight: normal;
     color: #f0ede6; margin-bottom: 10px;
+    position: relative; display: inline-block; cursor: default;
+  }
+  /* суперпозиция заголовка: два призрака, схлопываются при наведении/тапе */
+  h1::before, h1::after {
+    content: 'СУПЕРПОЗИЦИОНИЗМ';
+    position: absolute; left: 0; right: 0; top: 0;
+    pointer-events: none; transition: opacity .7s ease, transform .7s ease;
+  }
+  h1::before { color: #8a867e; opacity: .35; animation: ghostA 6s ease-in-out infinite alternate; }
+  h1::after  { color: var(--accent); opacity: .22; animation: ghostB 7s ease-in-out infinite alternate; }
+  h1:hover::before, h1:hover::after,
+  h1.collapsed::before, h1.collapsed::after {
+    opacity: 0; transform: translate(0, 0);
+  }
+  @keyframes ghostA {
+    from { transform: translate(-4px, -2px); }
+    to   { transform: translate(3px, 1px); }
+  }
+  @keyframes ghostB {
+    from { transform: translate(4px, 2px); }
+    to   { transform: translate(-3px, -1px); }
   }
   .subtitle { font-style: italic; color: #8a867e; font-size: 18px; }
   .author { margin-top: 22px; font-size: 15px; color: #6b675f; }
@@ -27,114 +59,137 @@
     text-align: center; margin-bottom: 60px; font-size: 14px;
     font-family: Arial, sans-serif;
   }
-  nav a { color: #9a958a; text-decoration: none; margin: 0 10px; }
-  nav a:hover { color: #e8e4da; }
+  nav a { color: #9a958a; text-decoration: none; margin: 0 10px; transition: color .3s; }
+  nav a:hover { color: var(--accent); }
   h2 {
     font-size: 20px; font-weight: normal; text-transform: uppercase;
     letter-spacing: 3px; color: #b8b4ab;
     margin: 55px 0 20px; padding-bottom: 8px;
     border-bottom: 1px solid #2a2b2e;
+    position: relative;
+  }
+  h2::after {
+    content: ''; position: absolute; left: 0; bottom: -1px;
+    width: 42px; height: 2px; background: var(--accent);
   }
   p { margin-bottom: 14px; }
-  .axiom { margin-bottom: 18px; }
+  .axiom { margin-bottom: 18px; transition: transform .3s; }
+  .axiom:hover { transform: translateX(4px); }
   .axiom b { color: #f0ede6; }
-  .note { color: #8a867e; }
   .cycle {
     text-align: center; font-size: 17px; color: #e8e4da;
     padding: 18px; margin: 20px 0;
     border: 1px solid #2a2b2e; border-radius: 6px;
     font-style: italic;
   }
+  .arr { color: #6b675f; animation: pulse 3.2s infinite; display: inline-block; }
+  @keyframes pulse {
+    0%, 100% { color: #6b675f; transform: scale(1); }
+    50% { color: var(--accent); transform: scale(1.25); }
+  }
   ul.dict { list-style: none; }
-  ul.dict li { margin-bottom: 12px; padding-left: 18px; border-left: 2px solid #2a2b2e; }
-  ul.dict b { color: #f0ede6; }
+  ul.dict li {
+    margin-bottom: 12px; padding-left: 18px;
+    border-left: 2px solid #2a2b2e;
+    transition: border-color .3s, padding-left .3s, color .3s;
+  }
+  ul.dict li:hover {
+    border-left-color: var(--accent); padding-left: 26px; color: #e8e4da;
+  }
   .epilogue {
     font-style: italic; color: #b8b4ab; text-align: center;
     font-size: 19px; margin: 60px 0; padding: 0 30px;
+    animation: breathe 4s ease-in-out infinite;
   }
-  .obj { margin-bottom: 16px; }
+  @keyframes breathe {
+    0%, 100% { text-shadow: 0 0 0 rgba(201,180,88,0); }
+    50% { text-shadow: 0 0 22px rgba(201,180,88,.35); }
+  }
+  .addendum {
+    margin-top: 60px; padding: 24px 26px;
+    border: 1px solid #2a2b2e; border-left: 2px solid var(--accent);
+    border-radius: 6px; font-size: 15px; color: #8a867e;
+  }
+  .addendum h2 { border: none; margin: 0 0 14px; padding: 0; font-size: 16px; }
+  .addendum h2::after { display: none; }
+  .addendum p { margin-bottom: 10px; }
   footer {
     margin-top: 80px; text-align: center; font-size: 14px;
     font-family: Arial, sans-serif;
   }
-  footer a { color: #9a958a; text-decoration: none; margin: 0 12px; }
-  footer a:hover { color: #e8e4da; }
+  footer a { color: #9a958a; text-decoration: none; margin: 0 12px; transition: color .3s; }
+  footer a:hover { color: var(--accent); }
   .copy { margin-top: 30px; color: #55524b; font-size: 13px; }
+  /* плавное появление при скролле — включает скрипт */
+  body.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+  body.js .reveal.visible { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    h1::before, h1::after, .arr, .epilogue { animation: none; }
+    body.js .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
 </style>
 </head>
 <body>
+<canvas id="particles"></canvas>
 <div class="wrap">
 
 <header>
   <h1>СУПЕРПОЗИЦИОНИЗМ</h1>
   <div class="subtitle">Философия опционального смысла</div>
-  <div class="author">Автор: <b>Gilvild</b> · Версия: (каноническая) Дата: 14 октября 2026</div>
+  <div class="author">Автор: <b>Gilvild</b> · Версия: канон · Дата: 15 октября 2026</div>
 </header>
 
 <nav>
   <a href="#manifest">Манифест</a>
   <a href="#dict">Словарь</a>
-  <a href="#neighbors">Философии</a>
+  <a href="#addendum">Дополнение</a>
 </nav>
 
-<h2 id="manifest">Манифест</h2>
+<h2 id="manifest" class="reveal">Манифест</h2>
 
-<p><b>О жанре.</b> Это не этика, не мораль и не инструкция. Суперпозиционизм - описательная система: она объясняет, как устроены воля, «хочу» и смысл. Она не говорит, как жить. «Всё можно» - констатация, а не разрешение: разрешения и запреты — тоже опциональные смыслы.</p>
+<p class="reveal"><b>О жанре.</b> Это не этика, не мораль и не инструкция. Суперпозиционизм - описательная система: она объясняет, как устроены воля, «хочу» и смысл. Она не говорит, как жить. «Всё можно» - констатация, а не разрешение: разрешения и запреты — тоже опциональные смыслы.</p>
 
-<p><b>О названии.</b> Суперпозиция в физике - состояние, в котором частица находится в нескольких состояниях одновременно, пока её не измерят. Измерили - осталась одна.</p>
+<p class="reveal"><b>О названии.</b> Суперпозиция в физике - состояние, в котором частица находится в нескольких состояниях одновременно, пока её не измерят. Измерили - осталась одна.</p>
 
-<p>Я перенёс этот образ на смысл. Любая вещь, поступок, жизнь стоит в двух состояниях сразу: «смысла нет» и «смысл есть». Щёлкает не прибор. Щёлкает воля. Захотел - смысл появился. Пресытился - вещь вернулась в неопределённость.</p>
+<p class="reveal">Я перенёс этот образ на смысл. Любая вещь, поступок, жизнь стоит в двух состояниях сразу: «смысла нет» и «смысл есть». Щёлкает не прибор. Щёлкает воля. Захотел - смысл появился. Пресытился - вещь вернулась в неопределённость.</p>
 
-<p>Это метафора, не физика. Никаких квантовых процессов в мозге тут нет. Из физики берётся только схема: две истины до акта воли, одна после.</p>
+<p class="reveal"><b>Суть.</b> Смысл не лежит в вещах. Его включают. Или не включают.</p>
 
-<p><b>Суть.</b> Смысл не лежит в вещах. Его включают. Или не включают. Всё остальное в тексте про то, как это работает.</p>
+<p class="axiom reveal"><b>Аксиома 0 (желание).</b> «Хочу» - первичный факт. Откуда оно взялось и почему такое - вопрос вне системы. Оно есть.</p>
 
-<p class="axiom"><b>Аксиома 0 (желание).</b> «Хочу» - первичный факт. Откуда оно взялось и почему такое - вопрос вне системы. Оно есть.</p>
+<p class="axiom reveal"><b>Аксиома 1 (пустота).</b> Ничто не имеет смысла само по себе.</p>
 
-<p class="axiom note">Дополнение: желание не включается приказом - попробуй захотеть усилием и увидишь, что усилие работает, только когда желание уже есть. Но условия для желания построить можно: место, люди, дела. Воля не жмёт рубильник желания. Воля ставит ловушку, в которую желание залетает само.</p>
+<p class="axiom reveal"><b>Аксиома 2 (назначение).</b> Смысл - акт воли: включается желанием, снимается пресыщением.</p>
 
-<p class="axiom"><b>Аксиома 1 (пустота).</b> Ничто не имеет смысла само по себе.</p>
+<p class="axiom reveal"><b>Аксиома 3 (прозрачность долга).</b> Всё, что требует «так надо», - чужой включённый смысл.</p>
 
-<p class="axiom"><b>Аксиома 2 (назначение).</b> Смысл - акт воли: включается желанием, снимается пресыщением.</p>
+<p class="reveal"><b>Следствия.</b> «Всё можно» - не разрешение, констатация. Хочешь правила - включай.</p>
 
-<p class="axiom note">Дополнение: назначить смысл можно чему угодно. Переживать его искренне - не обещано: переживание делает психика. Акт воли - бинарный: включено или выключено.</p>
+<p class="reveal"><b>Страдание:</b> Смысл опционален. Боль нет.</p>
 
-<p class="axiom"><b>Аксиома 3 (прозрачность долга).</b> Всё, что требует «так надо», - чужой включённый смысл.</p>
+<p class="reveal"><b>Цикл суперпозициониста.</b></p>
+<div class="cycle reveal">выключено <span class="arr" style="animation-delay:0s">→</span> скука <span class="arr" style="animation-delay:.45s">→</span> желание нового <span class="arr" style="animation-delay:.9s">→</span> включено <span class="arr" style="animation-delay:1.35s">→</span> прожито <span class="arr" style="animation-delay:1.8s">→</span> пресыщение <span class="arr" style="animation-delay:2.25s">→</span> выключено <span class="arr" style="animation-delay:2.7s">→</span> и по кругу.</div>
 
-<p><b>Следствия.</b> «Всё можно» - не разрешение, констатация. Хочешь правила - включай, только знай: они будут твои, не вселенские. «Пофиг» - рабочее состояние, а не поломка.</p>
+<h2 id="dict" class="reveal">Словарь</h2>
 
-<p><b>Страдание.</b> Смысл опционален. Боль нет. Страдание не спрашивает, включён ли рубильник. Система - не анестезия: выключение смысла не глушит боль, оно снимает только второй слой - вопрос «за что мне это». Ответа «за что» не существует, и это не крах системы, а её исходное условие.</p>
-
-<p>Есть состояния, где воля заедает: усталость, выгорание, болезнь, депрессия. Система это описывает, а не отрицает: неисправный рубильник не отменяет того, как устроены рубильники. В тяжёлом состоянии «пофиг» - легитимная фаза, а не поражение. Если система в эти дни не работает - она об этом честно сказала. Ловушка для желания ставится и позже.</p>
-
-<p><b>Цикл суперпозициониста.</b></p>
-<div class="cycle">выключено → скука → желание нового → включено → прожито → пресыщение → выключено → и по кругу.</div>
-
-<p class="note">Скука и пресыщение - сигналы, не команды. Услышал и не дёрнул - тоже выбор.</p>
-
-<h2 id="dict">Словарь</h2>
-
-<ul class="dict">
+<ul class="dict reveal">
   <li>Суперпозиционизм - учение про то, что смысл существует только как акт воли.</li>
   <li>Суперпозиционист - тот, кто включает и выключает смыслы по желанию.</li>
-  <li>Опциональный смысл - смысл как опция: подключается желанием, снимается пресыщением, в вещах не хранится. Акт воли один, проявления разные: смысл-цель, смысл-значимость, смысл-связность.</li>
+  <li>Опциональный смысл - смысл как опция: подключается желанием, снимается пресыщением, в вещах не хранится. Акт воли один, проявления разные: смысл-цель, смысл-значимость.</li>
   <li>Суперпозиция смысла - состояние вещи до акта воли: смысла нет и смысл есть одновременно.</li>
   <li>Измерение - акт воли, схлопывающий суперпозицию: назначение или снятие смысла.</li>
 </ul>
 
-<h2 id="neighbors">Чем отличаюсь от другой философии?</h2>
+<div class="epilogue reveal">Эпилог. Эта философия имеет смысл ровно тогда, когда ты этого захочешь.</div>
 
-<p><b>Нигилизм.</b> Он прав по факту, но это дверь, а не стена. Раз ничего не важно, то и «ничего не важно» не важно. Дальше можно хотеть</p>
+<h2 id="addendum" class="reveal">Дополнение</h2>
 
-<p><b>Сартр.</b> У него не-выбор тоже выбор, из игры не выйти. Тут выход есть: выключение — действие, а не поражение</p>
-
-<p><b>Камю.</b> Ему нужен бунт против абсурда. Мне нужен переключатель</p>
-
-<p><b>Гегель.</b> У него бытие и ничто сливаются в становление по необходимости, и назад дороги нет. Тут переход добровольный и обратимый</p>
-
-<div class="obj">«Эпилог противоречит сам себе: если кто-то решит, что философия без смысла, ей придётся признать, что для него её нет». Так и есть, и система с этим согласна. Эпилог не заявляет, что смысл есть. Он называет условие. Кому не зашло — для того и правда не зашло. Претензия на всех была бы нарушением её же аксиом</div>
-
-<div class="epilogue">Эпилог. Эта философия имеет смысл ровно тогда, когда ты этого захочешь.</div>
+<div class="addendum reveal">
+  <p>Текст зафиксирован. Дальше он не меняется: новые мысли идут приложениями, а не правками канона.</p>
+  <p>Есть состояния, где воля заедает: усталость, выгорание, болезнь, депрессия. Это факт о состоянии владельца, а не крах системы: неисправный рубильник не отменяет того, как устроены рубильники. В тяжёлом состоянии «пофиг» - легитимная фаза, а не поражение. Ловушка для желания ставится и позже - а пока воля офлайн, ловушки ставит кто-то другой: среда, люди, терапия. Это разрешено системой, а не запрещено ею.</p>
+  <p>Система не обещает волю каждый день. Она обещает, что воля твоего желания принадлежит тебе. Обещание держится и в плохие дни.</p>
+</div>
 
 <footer>
   <a href="https://pikabu.ru/@Gilvild">Пикабу</a>
@@ -144,5 +199,58 @@
 <div class="copy">© 2026 Gilvild · Суперпозиционизм · Философия опционального смысла</div>
 
 </div>
+
+<script>
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.body.classList.add('js');
+
+  // появление при скролле
+  var targets = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduced) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    targets.forEach(function (t) { io.observe(t); });
+  } else {
+    targets.forEach(function (t) { t.classList.add('visible'); });
+  }
+
+  // схлопывание заголовка по тапу (для телефонов)
+  var h1 = document.querySelector('h1');
+  h1.addEventListener('click', function () { h1.classList.toggle('collapsed'); });
+
+  // частицы
+  if (!reduced) {
+    var c = document.getElementById('particles'), ctx = c.getContext('2d'), P = [];
+    function size() { c.width = innerWidth; c.height = innerHeight; }
+    size(); addEventListener('resize', size);
+    for (var i = 0; i < 34; i++) {
+      P.push({
+        x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+        r: 1 + Math.random() * 2, a: 0.04 + Math.random() * 0.1,
+        vx: (Math.random() - 0.5) * 0.15, vy: -0.05 - Math.random() * 0.15
+      });
+    }
+    (function draw() {
+      ctx.clearRect(0, 0, c.width, c.height);
+      for (var j = 0; j < P.length; j++) {
+        var p = P[j];
+        p.x += p.vx; p.y += p.vy;
+        if (p.y < -5) { p.y = c.height + 5; p.x = Math.random() * c.width; }
+        if (p.x < -5) p.x = c.width + 5;
+        if (p.x > c.width + 5) p.x = -5;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, 6.283);
+        ctx.fillStyle = 'rgba(216,213,207,' + p.a + ')';
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    })();
+  }
+})();
+</script>
 </body>
 </html>
