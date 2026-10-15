@@ -1,28 +1,22 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <title>Суперпозиционизм — официальный сайт философии опционального смысла | Gilvild</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Суперпозиционизм — официальный сайт философии опционального смысла | Gilvild</title>
 <meta name="description" content="Официальный сайт философии суперпозиционизм (философия опционального смысла). Автор: Gilvild. Канонический текст, словарь, цикл суперпозициониста.">
-  <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Суперпозиционизм",
   "alternateName": "Философия опционального смысла",
   "url": "https://gilvild.github.io/",
-  "author": {
-    "@type": "Person",
-    "name": "Gilvild",
-    "alternateName": "Гильвильд"
-  },
+  "author": { "@type": "Person", "name": "Gilvild", "alternateName": "Гильвильд" },
   "description": "Официальный источник философии суперпозиционизм — философии опционального смысла. Канонический текст, словарь терминов.",
   "inLanguage": "ru"
 }
 </script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Суперпозиционизм — философия опционального смысла</title>
-<meta name="description" content="Суперпозиционизм — философия опционального смысла. Автор: Gilvild.">
 <style>
   :root { --accent: #c9b458; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -50,7 +44,6 @@
     color: #f0ede6; margin-bottom: 10px;
     position: relative; display: inline-block; cursor: default;
   }
-  /* суперпозиция заголовка: два призрака, схлопываются при наведении/тапе */
   h1::before, h1::after {
     content: 'СУПЕРПОЗИЦИОНИЗМ';
     position: absolute; left: 0; right: 0; top: 0;
@@ -138,7 +131,6 @@
   footer a { color: #9a958a; text-decoration: none; margin: 0 12px; transition: color .3s; }
   footer a:hover { color: var(--accent); }
   .copy { margin-top: 30px; color: #55524b; font-size: 13px; }
-  /* плавное появление при скролле — включает скрипт */
   body.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
   body.js .reveal.visible { opacity: 1; transform: translateY(0); }
   @media (prefers-reduced-motion: reduce) {
@@ -223,7 +215,6 @@
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.body.classList.add('js');
 
-  // появление при скролле
   var targets = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && !reduced) {
     var io = new IntersectionObserver(function (entries) {
@@ -236,11 +227,9 @@
     targets.forEach(function (t) { t.classList.add('visible'); });
   }
 
-  // схлопывание заголовка по тапу (для телефонов)
   var h1 = document.querySelector('h1');
   h1.addEventListener('click', function () { h1.classList.toggle('collapsed'); });
 
-  // частицы
   if (!reduced) {
     var c = document.getElementById('particles'), ctx = c.getContext('2d'), P = [];
     function size() { c.width = innerWidth; c.height = innerHeight; }
